@@ -1,0 +1,48 @@
+name: url-shortener
+version: "3.8"
+services:
+  api:
+    container_name: url-shortener-api
+    restart: on-failure
+    build:
+      context: ./api/
+      target: development
+      dockerfile: ./Dockerfile
+    image: url-shortener-api_dev:1.0.0
+    volumes:
+      - ./api/app:/code/app
+      - ./api/tests:/code/tests
+      - .env:/code/.env
+      - ./api/run.py:/code/run.py
+      - ./api/config.py:/code/config.py
+      - ./api/.coverage:/code/.coverage
+      - ./api/logs:/code/logs
+    env_file:
+      - .env
+    networks:
+      - app-net
+    ports:
+      - 8000:80
+    command: uvicorn app:app --reload --host 0.0.0.0 --port 80
+
+  db:
+    container_name: db
+    image: postgres:16
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=localhost
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./db/postgres_data:/var/lib/postgresql/data
+      - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/sql/inserts.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+    networks:
+      app-net:
+        aliases:
+          - db-host
+
+networks:
+    app-net:
