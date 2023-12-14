@@ -36,5 +36,6 @@ def create_shorten_url(db, request, error_logger, original_url):
         return None
 
 
-def get_top_100_urls(db):
-    return service.read_urls_slice(db, end=100)
+def get_top_urls(db, limit):
+    ordered_by_clicks = service.read_top_clicks(db)
+    return service.read_urls_slice(ordered_by_clicks, end=limit)
