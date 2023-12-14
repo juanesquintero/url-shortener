@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.schemas import Root
 from config import APP_CONFIG
-
-# from app.routers import ROUTERS
+from app.routers import ROUTERS
 
 app = FastAPI(**APP_CONFIG)
 
@@ -28,6 +27,6 @@ async def index() -> dict:
     return {'api': 'URL Shortener'}
 
 
-# Routes App
-# for router in ROUTERS:
-#     app.include_router(router)
+# App Routes
+for router in ROUTERS:
+    app.include_router(router)

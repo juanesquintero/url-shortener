@@ -12,7 +12,6 @@ services:
     volumes:
       - ./api/app:/code/app
       - ./api/tests:/code/tests
-      - .env:/code/.env
       - ./api/run.py:/code/run.py
       - ./api/config.py:/code/config.py
       - ./api/.coverage:/code/.coverage
@@ -37,8 +36,8 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - ./db/postgres_data:/var/lib/postgresql/data
-      - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      - ./db/sql/inserts.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+      # - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # - ./db/sql/inserts.sql:/docker-entrypoint-initdb.d/fill_tables.sql
     networks:
       app-net:
         aliases:
