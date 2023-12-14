@@ -1,9 +1,9 @@
 import os
 from dotmap import DotMap
-from pydantic import BaseSettings, Field
-from logging import DEBUG, getLogger, basicConfig, FileHandler, Formatter, Logger
-from app.shared.constants import Routes, SWAGGER_DESCRIPTION
 from app.shared.utils import get_attr
+from pydantic import BaseSettings
+from app.shared.constants import Routes, SWAGGER_DESCRIPTION
+from logging import DEBUG, getLogger, basicConfig, FileHandler, Formatter, Logger
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -34,16 +34,24 @@ class Settings(BaseSettings):
     error_logger: Logger = getLogger('error_logger')
     info_logger: Logger = getLogger('info_logger')
 
-    database = DotMap({
-        'host': 'db-host',
-        'port': 5432,
-        'schema': Field(..., env='db_name'),
-        'user': Field(..., env='db_user'),
-        'password': Field(..., env='db_password'),
-    })
+    db_host: str = 'db-host'
+    db_port: int = 5432
+    db_name: str
+    db_user: str
+    db_password: str
+
+    @property
+    def database(self):
+        return DotMap({
+            'host': self.db_host,
+            'port': self.db_port,
+            'schema': self.db_name,
+            'user': self.db_user,
+            'password': self.db_password,
+        })
 
     class Config:
-        case_sensitive = True
+        # case_sensitive = True
         env_file = '.env'
 
 
