@@ -9,12 +9,43 @@ from app.db.models.url import URL as model
 URL = APIRouter(prefix=f"/{Routes.urls}", tags=[Routes.urls])
 
 
-@URL.get("", response_model=Response)
-async def list_all(db: DBSession):
+@URL.get("/", response_model=Response)
+async def list_all(
+    db: DBSession, 
+    short_url: str | None = None,
+    original_url: str | None = None
+):
+    if short_url:
+        return get_one(db, short_url=short_url)
+
+    if original_url:
+        return get_one(db, original_url=original_url)
+
     return {
         'detail': 'All URLs fetched',
         'data': service.read_urls(db)
     }
+
+def get_one(db: DBSession, short_url: str = None, original_url: str = None):
+    if original_url:
+        db_url = service.read_shorted_url(db, short_url)
+    else:
+        db_url = service.read_url(db, original_url)
+
+    if db_url:
+        db_url.clicks += 1
+        db.commit()
+        return {
+            'detail': 'Shorten URL found',
+            'data': {
+                'title': db_url.title,
+                'address': db_url.address,
+                'shorted': db_url.shorted,
+                'clicks': db_url.clicks,
+            }
+        }
+    raise HTTPException(status_code=404, detail="URL not found")
+
 
 @URL.get("/top-100")
 async def list_top_100(db: DBSession):
@@ -22,15 +53,6 @@ async def list_top_100(db: DBSession):
         'detail': 'Top 100 URLs fetched',
         'data': controller.get_top_100_urls(db)
     }
-
-@URL.get("/{short_url}")
-def access_to_url(short_url: str, db: DBSession):
-    db_url = db.query(model).filter(model.shorted == short_url).first()
-    if db_url:
-        db_url.clicks += 1
-        db.commit()
-        return {"address": db_url.address}
-    raise HTTPException(status_code=404, detail="URL not found")
 
 # @URL.post("/shorten", response_model=Response)
 @URL.post("/shorten", response_model=dict)
