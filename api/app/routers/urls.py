@@ -1,10 +1,10 @@
+from asyncio import sleep
 from fastapi import APIRouter, BackgroundTasks
 from app.shared.constants import Routes
 from app.shared.dependencies import DBSession
 # from app.schemas.url import Response
 from app.services import urls as service
 
-from asyncio import sleep
 
 URL = APIRouter(prefix=f"/{Routes.urls}", tags=[Routes.urls])
 
