@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "URL Shortener",
+            "Group": "Servers",
+            "Host": "db-host",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "root",
+            "PassFile": "/pgpass",
+            "SSLMode": "prefer"
+        }
+    }
+}
