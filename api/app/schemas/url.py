@@ -7,11 +7,11 @@ class URLSchema(BaseModel):
     title: str | None
     address: str
     shorted: str | None
-    access_count: int | None
+    clicks: int | None
 
     class Config:
         orm_mode = True
 
 class Response(TypedDict):
-    data: URLSchema | list[URLSchema]
+    data: URLSchema | list[URLSchema] | None
     detail: str | None
