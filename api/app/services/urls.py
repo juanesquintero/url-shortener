@@ -8,6 +8,9 @@ def read_urls(db: Session):
 def read_url(db: Session, original_url: str):
     return db.query(URL).filter(URL.address == original_url).first()
 
+def read_shorted_url(db: Session, shorted_url: str):
+    return db.query(URL).filter(URL.shorted == shorted_url).first()
+
 def read_urls_slice(db: Session, start: int = 0, end: int = 100):
     return db.query(URL).offset(start).limit(end).all()
 
