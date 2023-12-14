@@ -1,4 +1,5 @@
 import os
+from dotmap import DotMap
 from pydantic import BaseSettings, Field
 from logging import DEBUG, getLogger, basicConfig, FileHandler, Formatter, Logger
 from app.shared.constants import Routes, SWAGGER_DESCRIPTION
@@ -32,6 +33,14 @@ create_logger('info')
 class Settings(BaseSettings):
     error_logger: Logger = getLogger('error_logger')
     info_logger: Logger = getLogger('info_logger')
+
+    database = DotMap({
+        'host': 'db-host',
+        'port': 5432,
+        'schema': Field(..., env='db_name'),
+        'user': Field(..., env='db_user'),
+        'password': Field(..., env='db_password'),
+    })
 
     class Config:
         case_sensitive = True
