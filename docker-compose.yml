@@ -12,7 +12,6 @@ services:
     volumes:
       - ./api/app:/code/app
       - ./api/tests:/code/tests
-      - .env:/code/.env
       - ./api/run.py:/code/run.py
       - ./api/config.py:/code/config.py
       - ./api/.coverage:/code/.coverage

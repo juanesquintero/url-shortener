@@ -1,4 +1,4 @@
-FROM python:3.11.1 AS development
+FROM python:3.11-slim AS development
 
 WORKDIR /code
 
@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements-dev.txt
 EXPOSE 80
 
 
-FROM python:3.11.1 AS production
+FROM python:3.11-slim AS production
 
 WORKDIR /code
 # Update pip
