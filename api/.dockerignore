@@ -1,0 +1,22 @@
+# IDEs
+.idea
+.vscode
+
+# Project stuff
+.DS_Store
+
+# Git
+.git
+.gitignore
+
+#Docker
+Dockerfile
+docker-compose.yml
+
+# Documents
+README.md
+DEVGUIDE.md
+.pre-commit.yaml
+.coverage
+
+/tests
