@@ -1,6 +1,8 @@
 name: url-shortener
 version: "3.8"
+
 services:
+
   api:
     container_name: url-shortener-api
     restart: on-failure
@@ -8,7 +10,7 @@ services:
       context: ./api/
       target: development
       dockerfile: ./Dockerfile
-    image: url-shortener-api_dev:1.0.0
+    image: url-shortener-api:1.0.0
     volumes:
       - ./api/app:/code/app
       - ./api/tests:/code/tests
@@ -16,16 +18,19 @@ services:
       - ./api/config.py:/code/config.py
       - ./api/.coverage:/code/.coverage
       - ./api/logs:/code/logs
+      - ./db/migrations:/code/migrations
+      - ./db/alembic:/code/alembic
+      - ./db/alembic.ini:/code/alembic.ini
     env_file:
       - .env
     networks:
       - app-net
     ports:
       - 8000:80
-    command: uvicorn app:app --reload --host 0.0.0.0 --port 80
+    command: uvicorn app:app --reload --host 0.0.0.0 --port 80 && alembic init migrations
 
   db:
-    container_name: db
+    container_name: url-shortener-db
     image: postgres:16
     env_file:
       - .env
@@ -42,6 +47,24 @@ services:
       app-net:
         aliases:
           - db-host
+
+  pgadmin:
+    container_name: url-shortener-pgadmin
+    image: dpage/pgadmin4
+    env_file:
+      - .env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${DB_USER}@${DB_NAME}.com
+      - PGADMIN_DEFAULT_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 8080:80
+    volumes:
+      - ./db/servers.json:/pgadmin4/servers.json
+      - ./db/pgpass:/pgpass
+    depends_on:
+      - db
+    networks:
+      - app-net
 
 networks:
     app-net:
