@@ -11,7 +11,7 @@ URL = APIRouter(prefix=f"/{Routes.urls}", tags=[Routes.urls])
 
 @URL.get("/", response_model=Response)
 async def list_all(
-    db: DBSession, 
+    db: DBSession,
     short_url: str | None = None,
     original_url: str | None = None
 ):
@@ -27,7 +27,7 @@ async def list_all(
     }
 
 def get_one(db: DBSession, short_url: str = None, original_url: str = None):
-    if original_url:
+    if short_url:
         db_url = service.read_shorted_url(db, short_url)
     else:
         db_url = service.read_url(db, original_url)
@@ -47,11 +47,14 @@ def get_one(db: DBSession, short_url: str = None, original_url: str = None):
     raise HTTPException(status_code=404, detail="URL not found")
 
 
-@URL.get("/top-100")
-async def list_top_100(db: DBSession):
+@URL.get("/top")
+async def list_top(
+    db: DBSession,
+    limit: int | None = 100,
+):
     return {
-        'detail': 'Top 100 URLs fetched',
-        'data': controller.get_top_100_urls(db)
+        'detail': f'Top {limit} URLs fetched',
+        'data': controller.get_top_urls(db, limit)
     }
 
 # @URL.post("/shorten", response_model=Response)
