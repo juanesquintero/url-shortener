@@ -36,8 +36,8 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - ./db/postgres_data:/var/lib/postgresql/data
-      - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      - ./db/sql/inserts.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+      # - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # - ./db/sql/inserts.sql:/docker-entrypoint-initdb.d/fill_tables.sql
     networks:
       app-net:
         aliases:
