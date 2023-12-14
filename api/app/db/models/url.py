@@ -11,4 +11,4 @@ class URL(Base):
     title = Column(String, nullable=True)
     address = Column(String, index=True, unique=True)
     shorted = Column(String, index=True, unique=True)
-    access_count = Column(Integer, default=0)
+    clicks = Column(Integer, default=0)
