@@ -22,3 +22,4 @@ def get_settings():
 
 # Dependency Annotations
 DBSession = Annotated[Session, Depends(get_db)]
+AppSettings = Annotated[Settings, Depends(get_settings)]

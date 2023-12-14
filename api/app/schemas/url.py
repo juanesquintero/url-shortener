@@ -3,6 +3,7 @@ from typing import TypedDict
 
 
 class URLSchema(BaseModel):
+    id: int | None
     title: str | None
     address: str
     shorted: str | None
