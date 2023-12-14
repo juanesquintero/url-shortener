@@ -1,0 +1,8 @@
+# CORE
+pydantic==1.10.13
+fastapi==0.105.0
+uvicorn==0.24.0
+
+# Utils
+python-dotenv==1.0.0
+httpx==0.25.2
