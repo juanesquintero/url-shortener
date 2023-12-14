@@ -1,4 +1,8 @@
+from fastapi import Depends
+from typing import Annotated
 from functools import lru_cache
+from sqlalchemy.orm import Session
+
 from config import Settings
 from app.db.conn import SessionLocal
 
@@ -11,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-
+DBSession = Annotated[Session, Depends(get_db)]
 @lru_cache()
 def get_settings():
     return Settings()

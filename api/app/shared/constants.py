@@ -4,8 +4,6 @@ class Routes:
 
 
 SWAGGER_DESCRIPTION = """
-## URL Shortener API 🚀
-
 ### Auth:
 * Authentiation and Authorization App services.
 
