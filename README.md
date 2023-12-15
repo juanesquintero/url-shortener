@@ -85,7 +85,7 @@ This project scaffolding for FastAPI framework with Python 3.11 contains:
 <b>PostgreSQL</b> database on localhost:5432
 
 <small>
-The database will be created automatically with docker volumes using the following file <i>db/sql/creates.sql</i>  and the <i>inserts.sql</i> will populate it with initial test data.
+
 </small>
 
 <br>
@@ -97,6 +97,8 @@ The database will be created automatically with docker volumes using the followi
 </small>
 
 ## Database
+
+The database will be created automatically with docker volumes using the following file <i>db/sql/creates.sql</i>  and the <i>inserts.sql</i> will populate it with initial test data.
 
 <b>Changes</b> <br>
   If some DDL changes are included to the database is preferred to remove the db container & the data folder (postgres_data) 
