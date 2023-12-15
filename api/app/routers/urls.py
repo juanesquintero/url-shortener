@@ -25,7 +25,11 @@ async def list_all(
         'data': service.read_urls(db)
     }
 
-def get_one(db: DBSession, short_url: str = None, original_url: str = None):
+def get_one(
+    db: DBSession,
+    short_url: str = None,
+    original_url: str = None
+):
     if short_url:
         db_url = service.read_shorted_url(db, short_url)
     else:
