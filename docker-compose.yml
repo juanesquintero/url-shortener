@@ -36,9 +36,9 @@ services:
       - .env
     environment:
       - DB_HOST=localhost
-      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_DB=urls
     volumes:
       - ./db/postgres_data:/var/lib/postgresql/data
       - ./db/sql/creates.sql:/docker-entrypoint-initdb.d/create_tables.sql
@@ -54,7 +54,7 @@ services:
     env_file:
       - .env
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${DB_USER}@${DB_NAME}.com
+      - PGADMIN_DEFAULT_EMAIL=${ADMIN_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${DB_PASSWORD}
     ports:
       - 8080:80

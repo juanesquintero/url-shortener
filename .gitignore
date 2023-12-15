@@ -9,7 +9,7 @@ __pycache__/
 *$py.class
 # C extensions
 *.so
-# SO
+# OS
 .DS_Store
 # Postgres DB
 postgres_data/
