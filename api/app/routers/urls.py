@@ -1,15 +1,14 @@
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Response, status
 from app.shared.constants import Routes
 from app.shared.dependencies import DBSession, AppSettings
-from app.schemas.url import Response
+from app.schemas.url import URLResponse
 from app.services import urls as service
 from app.controllers import urls as controller
-from app.db.models.url import URL as model
 
 URL = APIRouter(prefix=f"/{Routes.urls}", tags=[Routes.urls])
 
 
-@URL.get("/", response_model=Response)
+@URL.get("/", response_model=URLResponse)
 async def list_all(
     db: DBSession,
     short_url: str | None = None,
@@ -57,23 +56,25 @@ async def list_top(
         'data': controller.get_top_urls(db, limit)
     }
 
-# @URL.post("/shorten", response_model=Response)
-@URL.post("/shorten", response_model=dict)
+# @URL.post("/shorten", response_model=URLResponse)
+@URL.post("/shorten", response_model=dict, status_code=status.HTTP_201_CREATED)
 async def shorten_url(
     original_url: str,
     request: Request,
+    response: Response,
     db: DBSession,
     settings: AppSettings,
     tasks: BackgroundTasks,
 ):
     existing_url = service.read_url(db, original_url)
     if existing_url:
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             'detail': 'URL already saved',
             'data': existing_url.__dict__
         }
 
-    tasks.add_task(controller.get_page_title, original_url=original_url)
+    tasks.add_task(controller.get_page_title, db=db, url=original_url)
     db_url = controller.create_shorten_url(db, request, settings.error_logger, original_url)
 
     if db_url:
@@ -82,6 +83,7 @@ async def shorten_url(
             'data': db_url.__dict__
         }
 
+    response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     return {
         'detail': 'Failed adding shorten URL',
         'data': None

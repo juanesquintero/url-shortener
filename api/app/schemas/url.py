@@ -12,6 +12,6 @@ class URLSchema(BaseModel):
     class Config:
         orm_mode = True
 
-class Response(TypedDict):
+class URLResponse(TypedDict):
     data: URLSchema | list[URLSchema] | None
     detail: str | None

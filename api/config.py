@@ -36,8 +36,8 @@ class Settings(BaseSettings):
 
     db_host: str = 'db-host'
     db_port: int = 5432
-    db_name: str
-    db_user: str
+    db_name: str = 'urls'
+    db_user: str = 'postgres'
     db_password: str
 
     @property
