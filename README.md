@@ -161,10 +161,13 @@ integer (query)
 
 #### POST http://localhost:8000/urls/shorten
 
-Will post and create the new url with the shorted version of the url using the selected algorithm for resulition based on PK autoincrement
+Will post and create the new url with the shorted version of the url using the selected algorithm "Base Conversion Algorithm" for resulition based on PK autoincrement
+ 
+Base Conversion Algorithm
+ Convert the unique ID of the long URL into a shorter representation using base conversion techniques. For example, you can convert the decimal representation of the ID into a base58 or base62 encoding, excluding easily confused characters like ‘0’, ‘O’, ‘1’, ‘I’, etc.
 
 <b>?original_url=</b><br>
-integer (query)
+integer (string)
 
 
 ## License
