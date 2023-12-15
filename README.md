@@ -64,6 +64,11 @@ This project scaffolding for FastAPI framework with Python 3.11 contains:
     DB_PASSWORD=admin123*
   ```
 
+  <small>
+    ADMIN_EMAIL for pgAdmin portal login
+    DB_PASSWORD for pgAdmin and offcourse for postgresql database password
+  </small>
+
   <b>Containerized</b> <br>
 
   After install [Docker Desktop](https://www.docker.com/get-started), create the images & instance the containers.
@@ -134,6 +139,33 @@ Now go to <a href="http://127.0.0.1:8000/docs" class="external-link" target="_bl
 You will see the automatic interactive API documentation (provided by <a href="https://github.com/swagger-api/swagger-ui" class="external-link" target="_blank">Swagger UI</a>):
 
 ![Swagger UI](https://fastapi.tiangolo.com/img/index/index-01-swagger-ui-simple.png)
+
+
+#### GET http://localhost:8000/urls/
+
+Will list the all urls shortened inserted on the db automatically
+Also it has 2 query params to get one specific url by original url address or the shorten one 
+
+<b>?short_url=</b><br>
+string (query)
+
+<b>?original_url=</b><br>
+string (query)
+
+#### GET http://localhost:8000/urls/top
+
+Will list the urls more accesed more clicks in descending order and following th limit given on the query params
+
+<b>?limit=100</b><br>
+integer (query)
+
+#### POST http://localhost:8000/urls/shorten
+
+Will post and create the new url with the shorted version of the url using the selected algorithm for resulition based on PK autoincrement
+
+<b>?original_url=</b><br>
+integer (query)
+
 
 ## License
 
